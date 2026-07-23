@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SIMPEMGU",
-  description: "Dashboard Kependudukan Kota Palembang",
+  description: "Dashboard Sistem Pemerataan Guru Kota Palembang",
   icons: {
     icon: '/asset/simpemgu.png',
   },
