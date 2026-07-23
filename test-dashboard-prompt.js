@@ -120,7 +120,7 @@ Gunakan bahasa yang profesional namun mudah dipahami. Sebutkan angka-angka spesi
     console.log('\n💾 Menyimpan ke file...');
     const fs = require('fs');
     const filename = `dashboard-analysis-${Date.now()}.txt`;
-    const output = `ANALISIS DASHBOARD KEPENDUDUKAN PALEMBANG
+    const output = `ANALISIS DASHBOARD SISTEM PEMERATAAN GURU KOTA PALEMBANG
 ${'='.repeat(70)}
 Generated: ${new Date().toLocaleString('id-ID')}
 Model: gemini-2.5-flash
