@@ -2,9 +2,6 @@
   "name": "simpemgu",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "22.13.1"
-  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "npm run lint && next build --turbopack",
