@@ -1,0 +1,24 @@
+{
+"type": "FeatureCollection",
+"name": "SPBU_PT_50K",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.726933375000044, -3.079803518999938, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.704329088000065, -3.103002832999948, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.689857313000061, -3.164861436999956, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.673982827000088, -3.187356156999954, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.644453629000054, -3.210072044999947, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.668825664000053, -3.242911373999959, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.731766210000046, -3.043336474999933, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.765306390000035, -3.001872952999975, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.750935859000037, -3.038021474999937, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.899697290000063, -3.096426186999963, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.725013598000032, -2.984267176999936, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.532585303000076, -2.921118788999934, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.555554535000056, -2.928374643999973, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.681908673000066, -2.924256240999966, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.706592174000036, -2.919332404999977, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.736914658000046, -2.807980528999963, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Pompa Bahan Bakar Umum", "METADATA": null, "SRS_ID": " " }, "geometry": { "type": "Point", "coordinates": [ 104.751558543000044, -2.990687832999924, 0.0 ] } }
+]
+}

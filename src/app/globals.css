@@ -1,0 +1,886 @@
+/* Label kecamatan di peta agar selalu tampil di atas dan proporsional */
+.leaflet-pane .kec-label {
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+@import "tailwindcss";
+
+/* =====================================================
+   MOBILE VIEWPORT OPTIMIZATION
+   ===================================================== */
+html {
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* =====================================================
+   MOBILE - HIDE ADMIN SIDEBAR ON INITIAL LOAD
+   ===================================================== */
+@media (max-width: 768px) {
+  /* FORCE HIDE sidebar by default on mobile during page load/transition */
+  aside[style*="position: fixed"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+  
+  /* Only show sidebar when explicitly opened (left: 0) */
+  aside[style*="left: 0px"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Hide mobile header bar during initial load too */
+  div[style*="zIndex: 10001"][style*="position: fixed"][style*="top: 0"] {
+    opacity: 0;
+    animation: fadeInHeader 0.3s ease 0.1s forwards;
+  }
+  
+  @keyframes fadeInHeader {
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* =====================================================
+   GLOBAL ZOOM 80% (DESKTOP)
+   ===================================================== */
+html {
+  width: 100%;
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+/* MOBILE: Allow horizontal scroll for tables */
+@media (min-width: 769px) {
+  html {
+    overflow-x: hidden;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #171717;
+  
+  /* Zoom 80% untuk semua device (desktop & mobile) */
+  zoom: 0.8;
+}
+
+/* DESKTOP: Hide overflow */
+@media (min-width: 769px) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Reset zoom untuk halaman autentikasi (login, forgot password, verify code) */
+body:has([data-auth-page="true"]) {
+  zoom: 1;
+}
+
+/* Zoom 90% khusus untuk halaman login */
+body:has([data-login-page="true"]) {
+  zoom: 0.9;
+}
+
+/* Zoom 80% khusus untuk halaman verify code */
+body:has([data-verify-page="true"]) {
+  zoom: 0.8;
+}
+
+/* Untuk Firefox yang tidak support zoom property */
+@-moz-document url-prefix() {
+  /* Desktop only - no transform on mobile */
+  @media (min-width: 769px) {
+    body {
+      transform: scale(0.8);
+      transform-origin: 0 0;
+      width: 125%;
+      min-height: 125vh;
+    }
+  }
+  
+  /* Mobile Firefox - no transform */
+  @media (max-width: 768px) {
+    body {
+      transform: none !important;
+      width: 100% !important;
+      min-height: 100vh !important;
+    }
+  }
+  
+  /* Reset transform untuk halaman autentikasi di Firefox */
+  body:has([data-auth-page="true"]) {
+    transform: none;
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* Transform 90% khusus untuk halaman login di Firefox */
+  body:has([data-login-page="true"]) {
+    transform: scale(0.9);
+    width: 111.11%;
+    min-height: 111.11vh;
+  }
+}
+
+/* Reset box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   ROOT VARIABLES
+   ===================================================== */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --border: #e5e7eb;
+  --muted: #f8fafc;
+  --text: #171717;
+  --white: #ffffff;
+}
+
+/* =====================================================
+   MAIN LAYOUT
+   ===================================================== */
+main,
+#__next {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Website content wrapper */
+.site-wrapper {
+  width: 100%;
+  max-width: 1600px; /* Disesuaikan untuk zoom 80% (1280 / 0.8) */
+  margin: 0 auto;
+  padding: 30px 40px; /* Dikompensasi untuk zoom 80% */
+}
+
+/* =====================================================
+   TYPOGRAPHY
+   ===================================================== */
+h1 {
+  font-size: 2.5rem; /* Dikompensasi untuk zoom 80% */
+  margin-bottom: 0.625rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.625rem;
+}
+
+h3 {
+  font-size: 1.625rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   FORM & BUTTON
+   ===================================================== */
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  font-size: 1.25rem; /* Dikompensasi untuk zoom 80% */
+}
+
+/* Admin data table styling (grey) */
+.admin-page-zoom table {
+  background-color: #f3f4f6;
+  border-radius: 12px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.admin-page-zoom table thead tr {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+.admin-page-zoom table th,
+.admin-page-zoom table td {
+  border: 1px solid #d1d5db;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.admin-page-zoom table tbody tr:nth-child(odd) {
+  background-color: #f9fafb;
+}
+
+.admin-page-zoom table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.admin-page-zoom table thead tr,
+.admin-page-zoom table thead th,
+.admin-page-zoom table thead td {
+  background-color: #e5e7eb !important;
+  color: #1f2937 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.admin-page-zoom table th,
+.admin-page-zoom table td {
+  border: 1px solid #d1d5db !important;
+  font-size: 13px !important;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+/* Show number input spinner arrows globally (Desktop & Mobile) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1 !important;
+  -webkit-appearance: auto !important;
+  appearance: auto !important;
+}
+
+input[type="number"] {
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
+  appearance: auto !important;
+}
+
+/* =====================================================
+   STAT CARD (BPS / DISDUKCAPIL)
+   ===================================================== */
+.stat-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+/* Hover lift effect untuk card dengan gradient */
+.hover-lift {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* =====================================================
+   BPS TABLE (DESKTOP + MOBILE)
+   ===================================================== */
+
+/* Wrapper */
+.bps-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: transparent;
+}
+
+/* Table */
+.bps-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  background: var(--white);
+  font-size: 1.25rem; /* Dikompensasi untuk zoom 80% */
+}
+
+/* Header */
+.bps-table thead {
+  background: #3b82f6;
+}
+
+.bps-table thead th {
+  color: var(--white);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 14px;
+  border: 1px solid #3b82f6;
+  white-space: nowrap;
+}
+
+/* Body */
+.bps-table tbody td {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.bps-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.bps-table tbody tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+/* Hover desktop only */
+@media (hover: hover) {
+  .bps-table tbody tr:hover {
+    background: #f3f4f6;
+  }
+}
+
+/* =====================================================
+   FILTER & EXPORT AREA
+   ===================================================== */
+.filter-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.filter-container input,
+.filter-container select {
+  padding: 10px 14px;
+  width: 100%;
+}
+
+/* =====================================================
+   SCROLLBAR (TABLE ONLY)
+   ===================================================== */
+.bps-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.bps-table-wrapper::-webkit-scrollbar-track {
+  background: #e5e7eb;
+}
+
+.bps-table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.6);
+  border-radius: 4px;
+}
+
+.bps-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(37, 99, 235, 0.8);
+}
+
+/* =====================================================
+   RESPONSIVE GRID FOR STAT CARDS
+   ===================================================== */
+.responsive-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* =====================================================
+   MOBILE RESPONSIVE FOR USER DASHBOARD
+   ===================================================== */
+@media (max-width: 768px) {
+  /* Grid menjadi 1 kolom di mobile untuk user dashboard */
+  .responsive-grid-3,
+  .responsive-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    padding: 0 16px !important;
+  }
+  
+  /* StatCard & StatCardCenter adjustments untuk mobile */
+  .hover-lift {
+    border-radius: 12px !important;
+    padding: 16px !important;
+    min-height: 100px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  }
+}
+
+/* =====================================================
+   FULL MOBILE ADMIN LAYOUT (TOP → BOTTOM)
+   ===================================================== */
+@media (max-width: 768px) {
+
+  /* ======================================
+     GLOBAL RESET (ADMIN MOBILE)
+     ====================================== */
+  /* Allow horizontal scroll for tables in mobile */
+
+  .admin-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    /* Allow horizontal scroll for tables in mobile */
+  }
+
+  /* ======================================
+     ADMIN HEADER (TOP BAR)
+     ====================================== */
+  .admin-header {
+    position: sticky;
+    top: 0;
+    z-index: 1200;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .admin-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .admin-header button {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  /* ======================================
+     SIDEBAR (OVERLAY MODE)
+     ====================================== */
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    max-width: 80%;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 1300;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+    overflow-y: auto;
+  }
+
+  .admin-layout.sidebar-open .admin-sidebar {
+    transform: translateX(0);
+  }
+
+  /* Overlay gelap */
+  .admin-layout::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1250;
+  }
+
+  .admin-layout.sidebar-open::before {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+/* ======================================
+   MAIN CONTENT
+   ====================================== */
+.admin-main {
+  margin-left: 0 !important;
+  padding: 16px !important;
+  width: 100%;
+  background: transparent;
+}
+
+.admin-main .site-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+/* ======================================
+   TAMBAHKAN DI SINI ⬇⬇⬇
+   ====================================== */
+.stat-card {
+  min-height: 140px;   /* ⬅️ INI YANG MEMBUAT CARD MEMANJANG */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ======================================
+   TYPOGRAPHY
+   ====================================== */
+  .admin-main h1 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  .admin-main h2 {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  .admin-main h3 {
+    font-size: 1.125rem;
+    margin-bottom: 4px;
+  }
+
+  .admin-main p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ======================================
+     GRID SYSTEM
+     ====================================== */
+  .admin-main .responsive-grid-3,
+  .admin-main .responsive-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* ======================================
+     CARD (STAT / INFO)
+     ====================================== */
+  .admin-main .stat-card,
+  .admin-main .hover-lift {
+    border-radius: 16px !important;
+    padding: 16px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+    transition: none !important;
+  }
+
+  .admin-main .stat-card:hover,
+  .admin-main .hover-lift:hover {
+    transform: none !important;
+  }
+
+  /* ======================================
+     FILTER & FORM
+     ====================================== */
+  .admin-main .filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* Show number input arrows on mobile - Always visible */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1 !important;
+    display: inline-block !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+    position: relative !important;
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
+    height: auto !important;
+  }
+  
+  /* Pastikan input number menampilkan spinner */
+  input[type="number"] {
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+  }
+
+  .admin-main input,
+  .admin-main select,
+  .admin-main textarea,
+  .admin-main button {
+    font-size: 1rem;
+    padding: 12px 14px;
+    border-radius: 12px;
+  }
+
+  /* ======================================
+     TAB NAVIGATION (MOBILE)
+     ====================================== */
+  .admin-tab-navigation {
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 0 12px !important;
+  }
+
+  .admin-tab-navigation button {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px 20px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+    justify-content: center !important;
+  }
+
+  .admin-tab-navigation button:hover {
+    transform: none !important;
+  }
+
+  /* ======================================
+     CHART CONTAINERS (MOBILE)
+     ====================================== */
+  .admin-chart-row {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .admin-chart-row > div {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  .admin-filter-row {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .admin-filter-row > div {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  /* Chart containers padding reduction */
+  .admin-chart-row > div[style*="padding"] {
+    padding: 8px !important;
+  }
+
+  /* Responsive container adjustments */
+  .admin-chart-row > div[style*="minWidth"] {
+    min-width: 100% !important;
+  }
+
+  .admin-chart-row > div[style*="maxWidth"] {
+    max-width: 100% !important;
+  }
+
+  /* Kotak putih grafik - Make it FULL WIDTH sampai tepi kotak biru */
+  .admin-main [style*="backgroundColor: 'white'"],
+  .admin-main [style*="background: white"],
+  .admin-main [style*="backgroundColor"][style*="white"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+    border-radius: 8px !important;
+  }
+
+  /* Background gradient container - FULL WIDTH edge to edge */
+  .admin-main [style*="background: linear-gradient"] {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    margin-right: calc(-50vw + 50%) !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+    border-radius: 0 !important;
+    position: relative;
+  }
+
+  /* Title inside gradient */
+  .admin-main [style*="background: linear-gradient"] h3,
+  .admin-main [style*="background: linear-gradient"] h4 {
+    font-size: 16px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Filter row adjustments */
+  .admin-filter-row {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* ======================================
+     LOADING STATE - HIDE SIDEBAR AND OLD CONTENT
+     ====================================== */
+  /* FORCE HIDE sidebar, header, overlay when loading - STRONGEST */
+  body:has(main p[style*="Memuat data"]) aside,
+  body:has(main div[style*="Memuat data"]) aside,
+  body:has(p[style*="Memuat data"]) aside,
+  body:has(div[style*="Memuat data"]) aside {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+  }
+
+  /* Hide mobile header when loading */
+  body:has(main p[style*="Memuat data"]) > div > div[style*="position: fixed"][style*="top: 0"],
+  body:has(main div[style*="Memuat data"]) > div > div[style*="position: fixed"][style*="top: 0"],
+  body:has(p[style*="Memuat data"]) div[style*="zIndex: 10001"],
+  body:has(div[style*="Memuat data"]) div[style*="zIndex: 10001"] {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Hide overlay when loading */
+  body:has(p[style*="Memuat data"]) div[style*="zIndex: 9998"],
+  body:has(div[style*="Memuat data"]) div[style*="zIndex: 9998"] {
+    display: none !important;
+  }
+
+  /* Hide toggle button when loading */
+  body:has(p[style*="Memuat data"]) button[style*="zIndex: 10002"],
+  body:has(div[style*="Memuat data"]) button[style*="zIndex: 10002"] {
+    display: none !important;
+  }
+
+  /* Make main full screen when loading */
+  main:has(p[style*="Memuat data"]),
+  main:has(div[style*="Memuat data"]) {
+    margin-left: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 99999 !important;
+    background: linear-gradient(to bottom right, #dbeafe 0%, #e0e7ff 100%) !important;
+  }
+
+  /* Hide all content except loading when loading */
+  main:has(div[style*="Memuat data"]) > *:not(div[style*="Memuat data"]) {
+    display: none !important;
+  }
+
+  /* Center loading indicator */
+  main div[style*="Memuat data"] {
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* ======================================
+     TABLE (MOBILE FRIENDLY)
+     ====================================== */
+  .admin-main .bps-table-wrapper {
+    margin: 0 -16px;
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+
+  .admin-main .bps-table {
+    font-size: 0.875rem;
+    min-width: 720px;
+  }
+
+  .admin-main .bps-table th,
+  .admin-main .bps-table td {
+    padding: 12px 10px;
+    white-space: nowrap;
+  }
+
+  /* ======================================
+     ACTION BUTTONS
+     ====================================== */
+  .admin-main .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .admin-main .action-buttons button {
+    width: 100%;
+  }
+
+  /* ======================================
+     FOOTER (BOTTOM)
+     ====================================== */
+  .admin-footer {
+    margin-top: auto;
+    padding: 16px;
+    font-size: 0.875rem;
+    color: #64748b;
+    text-align: center;
+  }
+
+}
+
+/* =====================================================
+   MODAL BACKDROP FIX - COUNTER ZOOM 80%
+   ===================================================== */
+/* Desktop & Mobile: Counter body zoom 80% agar popup ukuran normal */
+/* Target backdrop by background color AND backdrop filter - exclude notifications */
+div[style*="position: fixed"][style*="backdropFilter"][style*="blur"],
+div[style*="position: fixed"][style*="backdrop-filter"][style*="blur"],
+div[style*="position: fixed"][style*="background"][style*="rgba(30"][style*="backdropFilter"],
+div[style*="position: fixed"][style*="background"][style*="rgba(30,41,59"][style*="backdropFilter"] {
+  zoom: 1.25 !important; /* 0.8 * 1.25 = 1.0 (ukuran normal) */
+  -webkit-transform: scale(1) !important;
+  transform: scale(1) !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* For Firefox (doesn't support zoom) */
+@supports (-moz-appearance: none) {
+  div[style*="position: fixed"][style*="backdropFilter"][style*="blur"],
+  div[style*="position: fixed"][style*="backdrop-filter"][style*="blur"],
+  div[style*="position: fixed"][style*="background"][style*="rgba(30"][style*="backdropFilter"] {
+    -moz-transform: scale(1.25) !important;
+    transform: scale(1.25) !important;
+    transform-origin: center center !important;
+    zoom: 1 !important;
+  }
+}
+
+/* =====================================================
+   NOTIFICATION TOAST - ALWAYS ON TOP
+   ===================================================== */
+/* Ensure notifications appear above mobile navbar and modals */
+div[style*="position: fixed"][style*="zIndex: 9999"]:not([style*="backdropFilter"]),
+div[style*="position: fixed"][style*="z-index: 9999"]:not([style*="backdropFilter"]) {
+  z-index: 10500 !important; /* Higher than navbar (10001) and modals (10000) */
+}
+
+/* Mobile: position notification below header to avoid overlap */
+@media (max-width: 768px) {
+  div[style*="position: fixed"][style*="zIndex: 9999"][style*="top: 20px"],
+  div[style*="position: fixed"][style*="z-index: 9999"][style*="top: 20px"],
+  div[style*="zIndex: 9999"][style*="right: 20px"],
+  div[style*="z-index: 9999"][style*="right: 20px"] {
+    top: 70px !important; /* Below mobile header (typically 60-64px height) */
+    right: 16px !important;
+    left: 16px !important;
+    max-width: calc(100% - 32px) !important;
+    z-index: 10500 !important;
+  }
+}

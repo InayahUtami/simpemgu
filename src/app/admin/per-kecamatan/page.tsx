@@ -1,0 +1,1 @@
+export { default } from '../data/per-kecamatan/page';

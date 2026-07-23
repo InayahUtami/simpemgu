@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "ARENAOLAHRAGA_PT_50K",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stadion/Tribun/Bangunan Olah Raga", "METADATA": "RBI50000PROVINSISUMATERASELATAN", "SRS_ID": " ", "JNSORG": null }, "geometry": { "type": "Point", "coordinates": [ 104.788717912000038, -3.021247378999931, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stadion/Tribun/Bangunan Olah Raga", "METADATA": "RBI50000PROVINSISUMATERASELATAN", "SRS_ID": " ", "JNSORG": null }, "geometry": { "type": "Point", "coordinates": [ 104.746137019000059, -2.969851392999942, 0.0 ] } }
+]
+}

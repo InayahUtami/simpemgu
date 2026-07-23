@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "STASIUNKA_PT_50K",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Kereta Api", "METADATA": "RBI50000PROVINSISUMATERASELATAN", "SRS_ID": " ", "DOPSTA": null, "FGSSTA": null, "KLSSTA": null, "KMTSTA": null, "KODKOD": null, "KONKON": null, "LINSTA": null, "WILSTA": null }, "geometry": { "type": "Point", "coordinates": [ 104.523103836000075, -3.219883345999961, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Kereta Api", "METADATA": "RBI50000PROVINSISUMATERASELATAN", "SRS_ID": " ", "DOPSTA": null, "FGSSTA": null, "KLSSTA": null, "KMTSTA": null, "KODKOD": null, "KONKON": null, "LINSTA": null, "WILSTA": null }, "geometry": { "type": "Point", "coordinates": [ 104.751525478000076, -3.01753021199994, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Stasiun Kereta Api", "METADATA": "RBI50000PROVINSISUMATERASELATAN", "SRS_ID": " ", "DOPSTA": null, "FGSSTA": null, "KLSSTA": null, "KMTSTA": null, "KODKOD": null, "KONKON": null, "LINSTA": null, "WILSTA": null }, "geometry": { "type": "Point", "coordinates": [ 104.642716689000054, -3.209564812999929, 0.0 ] } }
+]
+}

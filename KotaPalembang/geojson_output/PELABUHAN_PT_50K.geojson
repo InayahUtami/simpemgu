@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "PELABUHAN_PT_50K",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Pelabuhan Sungai dan Danau", "METADATA": "RBI50000PROVINSISUMATERASELATAN", "SRS_ID": " ", "ADMPEL": null, "ALJPEL": null, "FGSPEL": null, "JNSPEL": null, "KLSPEL": null, "KMNPEL": null, "KMXPEL": null, "KODBPL": null, "KODPEL": null, "KONKON": null, "LAMPEL": null, "NAMPEL": null, "PJAPEL": null, "SRPPEL": null, "STPPEL": null }, "geometry": { "type": "Point", "coordinates": [ 104.760773106000045, -2.991838857999937, 0.0 ] } },
+{ "type": "Feature", "properties": { "NAMOBJ": "", "FCODE": " ", "REMARK": "Pelabuhan Sungai dan Danau", "METADATA": "RBI50000PROVINSISUMATERASELATAN", "SRS_ID": " ", "ADMPEL": null, "ALJPEL": null, "FGSPEL": null, "JNSPEL": null, "KLSPEL": null, "KMNPEL": null, "KMXPEL": null, "KODBPL": null, "KODPEL": null, "KONKON": null, "LAMPEL": null, "NAMPEL": null, "PJAPEL": null, "SRPPEL": null, "STPPEL": null }, "geometry": { "type": "Point", "coordinates": [ 104.863252345000035, -2.918512094999926, 0.0 ] } }
+]
+}
